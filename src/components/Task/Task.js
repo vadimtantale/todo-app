@@ -13,7 +13,7 @@ export default function Task({text, id, flag}) {
               </div>;
   
   const editField = <input type="text"
-                           class="edit"
+                           className="edit"
                            value="Editing task">
                     </input>;
 

@@ -8,5 +8,5 @@ export default function NewTaskForm() {
 					 placeholder="What needs to be done?"
 					 autofocus>
 		</input>
-	)
-}
+	);
+};

@@ -2,7 +2,6 @@ import React from 'react';
 
 import './App.css';
 import Header from '../Header';
-import NewTaskForm from '../NewTaskForm';
 import TaskList from '../TaskList';
 import Footer from '../Footer';
 
@@ -14,11 +13,12 @@ export default function App() {
   ];
 
   return (
-    <div>
+    <section className='todoapp'>
       <Header />
-      <NewTaskForm />
-      <TaskList todoData={todoData} />
-      <Footer />
-    </div>
+      <section className='main'>
+        <TaskList todoData={todoData} />
+        <Footer />
+      </section>
+    </section>
   );
 };
