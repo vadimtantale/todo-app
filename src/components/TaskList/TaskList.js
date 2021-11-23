@@ -3,13 +3,16 @@ import React from "react";
 import './TaskList.css';
 import Task from '../Task';
 
-export default function TaskList({todoData, onChanged, onDeleted}) {
+export default function TaskList({todoData, onToggleCompleted, onDeleted, onToggleEditing}) {
 	const todos = todoData.map(item => {
-		const {id, ...otherProperties} = item;
-		return <Task {...otherProperties} 
+		const {id, ...rest} = item;
+
+		return <Task {...rest} 
 									key={id}
-									onChanged = {() => onChanged(id)}
-									onDeleted = {() => onDeleted(id)} />;
+									onToggleCompleted = {() => onToggleCompleted( id )}
+									onDeleted = {() => onDeleted( id )}
+									onToggleEditing = {() => onToggleEditing( id )}
+						/>;
 	});
 
 	return (

@@ -10,31 +10,53 @@ export default class App extends Component {
 
   state = {
     todoData: [
-      {text: 'Completed task', id: this.todoDataCount++, flag: null},
-      {text: 'Editing task', id: this.todoDataCount++, flag: 'editing'},
-      {text: 'Active task', id: this.todoDataCount++, flag: null},
+      this.createItem( 'Completed task' ),
+      { text: 'Editing task', id: this.todoDataCount++, completed: false, editing: true },
+      this.createItem( 'Active task' ),
     ],
   };
 
-  changeProperties = (id, obj) => {
-    if (id === obj.id) {
-      return {...obj, flag: obj.flag === null ? 'completed' : null}
-    }
-
-    return obj;
+  createItem(text) {
+    return {
+      text,
+      id: this.todoDataCount++,
+      completed: false,
+      editing: false,
+    };
   }
 
-  changeData = (id) => {
+  addItem( text ) {
     this.setState(({todoData}) => {
-      return {todoData: todoData.map(item => {
-                return this.changeProperties(id, item);
-              }),
+      return {
+        todoData: [...todoData, this.createItem(text)],
       };
     });
   };
 
-  deleteData = (id) => {
-    this.setState(({todoData}) => {
+  toggleProperty(arr, id, propName) {
+    console.log()
+    return arr.map( item => {
+        if (id === item.id) {
+          return { ...item, [propName]: !item[propName] };
+        }
+        return item;
+      });
+  };
+
+  onToggleCompleted = ( id ) => {
+    this.setState(({ todoData }) => {
+      return { todoData: this.toggleProperty(todoData, id, 'completed') };
+    });
+  };
+
+  onToggleEditing = ( id ) => {
+    this.setState(({ todoData }) => {
+      return { todoData: this.toggleProperty(todoData, id, 'editing') };
+    });
+  };
+
+  deleteItem = ( id ) => {
+    this.setState(({ todoData }) => {
       return {
         todoData: todoData.filter(item => item.id !== id),
       };
@@ -43,13 +65,15 @@ export default class App extends Component {
 
   render() {
     return (
-      <section className='todoapp'>
-        <Header />
+      <section className = 'todoapp'>
+        <Header onAdded = { this.addItem } />
         <section className='main'>
           <TaskList
-            todoData={this.state.todoData}
-            onChanged={this.changeData}
-            onDeleted={this.deleteData} />
+            todoData = { this.state.todoData }
+            onToggleCompleted = { this.onToggleCompleted }
+            onDeleted = { this.deleteItem }
+            onToggleEditing = { this.onToggleEditing }
+          />
           <Footer />
         </section>
       </section>
