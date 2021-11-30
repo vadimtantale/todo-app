@@ -4,7 +4,6 @@ import NewTaskForm from '../NewTaskForm';
 import './Header.css';
 
 export default function Header({onAdded}) {
-	console.log(onAdded)
 	return (
 		<header className="header">
 			<h1>todos</h1>

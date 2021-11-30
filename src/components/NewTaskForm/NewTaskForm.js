@@ -16,7 +16,7 @@ export default class NewTaskForm extends Component {
 
 	onEnterTask = (e) => {
 		e.preventDefault();
-		this.props.onAdded('Руддщ'); //проблема начинается тут
+		this.props.onAdded(this.state.value);
 		this.setState({
 			value: ''
 		});

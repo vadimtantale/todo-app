@@ -3,7 +3,7 @@ import EditField from "../EditField";
 
 import './Task.css';
 
-export default function Task({text, completed, editing, onToggleCompleted, onDeleted, onToggleEditing}) {
+export default function Task({text, completed, editing, onToggleCompleted, onDeleted, onToggleEditing, carriedChangeItemText}) {
    
   const getClassName = () => {
     if (completed) {
@@ -25,7 +25,8 @@ export default function Task({text, completed, editing, onToggleCompleted, onDel
         <button className="icon icon-edit" onClick = { onToggleEditing }></button>
         <button className="icon icon-destroy" onClick = { onDeleted }></button>
       </div>
-      {editing && <EditField />}
+      {editing && <EditField onToggleEditing = { onToggleEditing }
+                             carriedChangeItemText = { carriedChangeItemText } />}
     </li>
   );
 };

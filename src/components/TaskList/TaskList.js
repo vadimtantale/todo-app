@@ -3,8 +3,9 @@ import React from "react";
 import './TaskList.css';
 import Task from '../Task';
 
-export default function TaskList({todoData, onToggleCompleted, onDeleted, onToggleEditing}) {
-	const todos = todoData.map(item => {
+export default function TaskList({todoData, onToggleCompleted, onDeleted, onToggleEditing, carriedChangeItemText}) {
+	const todos = todoData.filter(item => item.visible)
+												.map(item => {
 		const {id, ...rest} = item;
 
 		return <Task {...rest} 
@@ -12,6 +13,7 @@ export default function TaskList({todoData, onToggleCompleted, onDeleted, onTogg
 									onToggleCompleted = {() => onToggleCompleted( id )}
 									onDeleted = {() => onDeleted( id )}
 									onToggleEditing = {() => onToggleEditing( id )}
+									carriedChangeItemText = { carriedChangeItemText(id) }
 						/>;
 	});
 

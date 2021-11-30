@@ -11,21 +11,21 @@ export default class App extends Component {
   state = {
     todoData: [
       this.createItem( 'Completed task' ),
-      { text: 'Editing task', id: this.todoDataCount++, completed: false, editing: true },
       this.createItem( 'Active task' ),
     ],
   };
 
-  createItem(text) {
+  createItem ( text ) {
     return {
       text,
       id: this.todoDataCount++,
       completed: false,
       editing: false,
+      visible: true,
     };
   }
 
-  addItem( text ) {
+  addItem = ( text ) => {
     this.setState(({todoData}) => {
       return {
         todoData: [...todoData, this.createItem(text)],
@@ -33,8 +33,29 @@ export default class App extends Component {
     });
   };
 
+  changeProperty = (id, text) => {
+    this.setState(({todoData}) => {
+      return {
+        todoData: todoData.map(item => {
+          if (item.id === id) {
+            return {...item, text}
+          }
+          return item;
+        }),
+      };
+    });
+  };
+
+  carry (func) {
+    return function carried(...args) {
+      if (args.length >= func.length) return func.apply(this, args);
+      return function(...args2) {
+        return carried.apply(this, [...args, ...args2]);
+      };
+    };
+  };
+
   toggleProperty(arr, id, propName) {
-    console.log()
     return arr.map( item => {
         if (id === item.id) {
           return { ...item, [propName]: !item[propName] };
@@ -63,7 +84,22 @@ export default class App extends Component {
     });
   };
 
+  filterItems = ( button ) => {
+    const actionButtons = {
+      all: item => ({...item, visible: true}),
+      active: item => ({...item, visible: !item.completed && !item.editing && true}),
+      completed: item => ({...item, visible: item.completed && true}),
+    }
+    
+    this.setState(({todoData}) => {
+      return {
+        todoData: todoData.map(actionButtons[button]),
+      };
+    });
+  };
+
   render() {
+    
     return (
       <section className = 'todoapp'>
         <Header onAdded = { this.addItem } />
@@ -73,8 +109,12 @@ export default class App extends Component {
             onToggleCompleted = { this.onToggleCompleted }
             onDeleted = { this.deleteItem }
             onToggleEditing = { this.onToggleEditing }
+            carriedChangeItemText = { this.carry(this.changeProperty) }
           />
-          <Footer />
+          <Footer onFiltered = { this.filterItems }
+                  deleteItem = { this.deleteItem }
+                  todoData = { this.state.todoData }
+          />
         </section>
       </section>
     );
