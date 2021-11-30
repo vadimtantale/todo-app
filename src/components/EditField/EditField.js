@@ -5,12 +5,12 @@ import './EditField.css';
 export default class EditField extends Component {
 
 	state = {
-		value: '',
+		value: this.props.text,
 	};
 
 	handleChange = (e) => {
 		this.setState({
-			value: e.target.value,
+			value: !e.target.value.length ? this.props.text : e.target.value,
 		});
 	};
 

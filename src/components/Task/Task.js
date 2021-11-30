@@ -26,7 +26,8 @@ export default function Task({text, completed, editing, onToggleCompleted, onDel
         <button className="icon icon-destroy" onClick = { onDeleted }></button>
       </div>
       {editing && <EditField onToggleEditing = { onToggleEditing }
-                             carriedChangeItemText = { carriedChangeItemText } />}
+                             carriedChangeItemText = { carriedChangeItemText }
+                             text = { text } />}
     </li>
   );
 };
