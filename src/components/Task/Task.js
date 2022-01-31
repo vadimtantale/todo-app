@@ -3,7 +3,8 @@ import EditField from "../EditField";
 
 import './Task.css';
 
-export default function Task({text, completed, editing, onToggleCompleted, onDeleted, onToggleEditing, carriedChangeItemText}) {
+export default function Task({text, completed, editing, onToggleCompleted, onDeleted,
+                              onToggleEditing, carriedChangeItemText}) {
    
   const getClassName = () => {
     if (completed) {
@@ -18,7 +19,8 @@ export default function Task({text, completed, editing, onToggleCompleted, onDel
   return (
     <li className={getClassName()}>
       <div className="view">
-        <input className="toggle" type="checkbox" checked={completed} onChange={onToggleCompleted}></input>
+        <input className="toggle" type="checkbox" 
+               checked={completed} onChange={onToggleCompleted}></input>
         <label>
           <span className="description">{text}</span>
         </label>

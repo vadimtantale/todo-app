@@ -1,35 +1,30 @@
-import React, {Component} from "react";
+import React, {useState} from "react";
 
 import './EditField.css';
 
-export default class EditField extends Component {
+export default function EditField ({text, carriedChangeItemText, onToggleEditing}) {
 
-	state = {
-		value: this.props.text,
+	const [state, setState] = useState(text);
+
+	function handleChange(e) {
+		setState(!e.target.value.length ? this.props.text : e.target.value);
 	};
 
-	handleChange = (e) => {
-		this.setState({
-			value: !e.target.value.length ? this.props.text : e.target.value,
-		});
-	};
-
-	handleSubmit = (e) => {
+	function handleSubmit(e) {
 		e.preventDefault();
-		this.props.carriedChangeItemText(this.state.value);
-		this.props.onToggleEditing();
+		carriedChangeItemText(state);
+		onToggleEditing();
 	}
 
-	render() {
-		return (
-			<form onSubmit={this.handleSubmit}>
-				<input type="text"
-							 className="edit"
-							 placeholder="Editing task"
-							 onChange={this.handleChange}
-							 autoFocus>
-				</input>
-			</form>
-		);
-	};
+
+	return (
+		<form onSubmit={handleSubmit}>
+			<input type="text"
+							className="edit"
+							placeholder="Editing task"
+							onChange={handleChange}
+							autoFocus>
+			</input>
+		</form>
+	);
 };

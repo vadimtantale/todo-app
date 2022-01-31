@@ -1,37 +1,30 @@
-import React, { Component } from "react";
+import React, {useState} from "react";
 
 import './NewTaskForm.css';
 
-export default class NewTaskForm extends Component {
+export default function NewTaskForm({onAdded}) {
 
-	state = {
-		value: '',
+	const [state, setState] = useState('');
+
+	const onChange = (e) => {
+		setState(e.target.value);
 	};
 
-	onChange = (e) => {
-		this.setState({
-			value: e.target.value,
-		});
-	};
-
-	onEnterTask = (e) => {
+	const onEnterTask = (e) => {
 		e.preventDefault();
-		this.props.onAdded(this.state.value);
-		this.setState({
-			value: ''
-		});
+		onAdded(state);
+		setState('');
 	};
 
-	render() {
-		return (
-			<form onSubmit={this.onEnterTask}>
-				<input className="new-todo"
-							 placeholder="What needs to be done?"
-							 value={this.state.value}
-							 onChange={this.onChange}
-							 autoFocus>
-				</input>
-			</form>
-		);
-	}
+
+	return (
+		<form onSubmit={onEnterTask}>
+			<input className="new-todo"
+							placeholder="What needs to be done?"
+							value={state}
+							onChange={onChange}
+							autoFocus>
+			</input>
+		</form>
+	);
 };
