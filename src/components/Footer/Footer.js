@@ -3,7 +3,7 @@ import TasksFilter from "../TasksFilter/TasksFilter";
 
 import './Footer.css';
 
-export default function Footer({ onFiltered, deleteItem, todoData }) {
+export default function Footer({ deleteItem, todoData, buttons, setButtons }) {
 	const clearCompleted = (todoData) => {
 		todoData.forEach(item => {
 			item.completed && deleteItem(item.id);
@@ -18,11 +18,13 @@ export default function Footer({ onFiltered, deleteItem, todoData }) {
 	return (
 		<footer className="footer">
 			<span className="todo-count">{countActiveTask} items left</span>
-			<TasksFilter onFiltered = { onFiltered } />
+			<TasksFilter setButtons={setButtons}
+				buttons={buttons}
+			/>
 			<button className="clear-completed"
-							onClick={() => clearCompleted(todoData)}>
+				onClick={() => clearCompleted(todoData)}>
 				Clear completed
 			</button>
 		</footer>
 	);
-};																		
+};

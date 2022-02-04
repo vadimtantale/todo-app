@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
 import carry from '../../utils/carry';
 import UUID from '../../utils/UUID';
@@ -10,12 +10,7 @@ import Footer from '../Footer';
 
 export default function App() {
 
-  const [state, setState] = useState([
-    createItem( 'First task' ),
-    createItem( 'Second task' ),
-  ]);
-
-  function createItem ( text ) {
+  const createItem = text => {
     return {
       text,
       id: UUID(),
@@ -24,18 +19,29 @@ export default function App() {
       visible: true,
     };
   };
-  
+
+  const [tasks, setTasks] = useState([
+    createItem('First task'),
+    createItem('Second task'),
+  ]);
+
+  const [buttons, setButtons] = useState([
+    { id: 'all', value: 'All', selected: true },
+    { id: 'active', value: 'Active', selected: false },
+    { id: 'completed', value: 'Completed', selected: false },
+  ]);
+
   const addItem = text => {
-    setState(state => {
+    setTasks(state => {
       return [...state, createItem(text)];
     });
   };
 
-  const changeProperty = (id, text) => {
-    setState(state => {
+  const changeItemText = (id, value) => {
+    setTasks(state => {
       return state.map(item => {
         if (item.id === id) {
-          return {...item, text}
+          return { ...item, text: value }
         }
         return item;
       });
@@ -43,7 +49,7 @@ export default function App() {
   };
 
   const toggleProperty = (arr, id, propName) => {
-    return arr.map( item => {
+    return arr.map(item => {
       if (id === item.id) {
         return { ...item, [propName]: !item[propName] };
       }
@@ -52,42 +58,34 @@ export default function App() {
   };
 
   const onToggleCompleted = id => {
-    setState(state => toggleProperty(state, id, 'completed'));
+    setTasks(state => toggleProperty(state, id, 'completed'));
   };
 
   const onToggleEditing = id => {
-    setState(state => toggleProperty(state, id, 'editing'));
+    setTasks(state => toggleProperty(state, id, 'editing'));
   };
 
   const deleteItem = id => {
-    setState(state => state.filter(item => item.id !== id));
+    setTasks(state => state.filter(item => item.id !== id));
   };
 
-  const filterItems = button => {
-    const actionButtons = {
-      all: item => ({...item, visible: true}),
-      active: item => ({...item, visible: !item.completed && !item.editing && true}),
-      completed: item => ({...item, visible: item.completed && true}),
-    }
-    
-    setState(state => state.map(actionButtons[button]));
-  };
-
-    
   return (
-    <section className = 'todoapp'>
-      <Header onAdded = { addItem } />
+    <section className='todoapp'>
+      <Header onAdded={addItem} />
       <section className='main'>
         <TaskList
-          todoData = { state }
-          onToggleCompleted = { onToggleCompleted }
-          onDeleted = { deleteItem }
-          onToggleEditing = { onToggleEditing }
-          carriedChangeItemText = { carry(changeProperty) }
+          todoData={tasks}
+          onToggleCompleted={onToggleCompleted}
+          onDeleted={deleteItem}
+          onToggleEditing={onToggleEditing}
+          carriedChangeItemText={carry(changeItemText)}
+          buttons={buttons}
         />
-        <Footer onFiltered = { filterItems }
-                deleteItem = { deleteItem }
-                todoData = { state }
+        <Footer
+          deleteItem={deleteItem}
+          todoData={tasks}
+          buttons={buttons}
+          setButtons={setButtons}
         />
       </section>
     </section>

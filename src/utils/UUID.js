@@ -5,4 +5,4 @@ export default function UUID() {
 
     return v.toString(16);
   });
-}
+};

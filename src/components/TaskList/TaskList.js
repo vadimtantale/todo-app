@@ -3,19 +3,35 @@ import React from "react";
 import './TaskList.css';
 import Task from '../Task';
 
-export default function TaskList({todoData, onToggleCompleted, onDeleted, onToggleEditing, carriedChangeItemText}) {
-	const todos = todoData.filter(item => item.visible)
-												.map(item => {
-		const {id, ...rest} = item;
+export default function TaskList({ todoData, onToggleCompleted, onDeleted,
+	onToggleEditing, carriedChangeItemText, buttons }) {
 
-		return <Task {...rest} 
-									key={id}
-									onToggleCompleted = {() => onToggleCompleted( id )}
-									onDeleted = {() => onDeleted( id )}
-									onToggleEditing = {() => onToggleEditing( id )}
-									carriedChangeItemText = { carriedChangeItemText(id) }
-						/>;
-	});
+	const filterCallback = () => {
+		const selectedButton = buttons.filter(i => i.selected).reduce((acc, i) => acc + i.id, '');
+		const callbacks = {
+			all: () => true,
+			active: item => !item.completed,
+			completed: item => item.completed,
+		}
+		return callbacks[selectedButton];
+	}
+
+	const todos = todoData
+		.filter(filterCallback())
+		.map(item => {
+			const { id, ...rest } = item;
+			const handlerOnToggleCompleted = () => onToggleCompleted(id);
+			const handlerOnDeleted = () => onDeleted(id);
+			const handlerOnToggleEditing = () => onToggleEditing(id);
+
+			return <Task {...rest}
+				key={id}
+				onToggleCompleted={handlerOnToggleCompleted}
+				onDeleted={handlerOnDeleted}
+				onToggleEditing={handlerOnToggleEditing}
+				carriedChangeItemText={carriedChangeItemText(id)}
+			/>;
+		});
 
 	return (
 		<ul className='todo-list'>
