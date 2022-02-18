@@ -53,4 +53,9 @@ TaskList.propTypes = {
   })),
 }
 
+TaskList.defaultProps = {
+  todoData: [],
+  buttonData: [],
+}
+
 export default TaskList;

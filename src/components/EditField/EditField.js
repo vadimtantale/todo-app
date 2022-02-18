@@ -35,7 +35,9 @@ export default class EditField extends Component {
   };
 
   static defaultProps = {
+    text: 'New task',
     onToggleEditing() { },
+    carriedChangeItemText() { },
   }
 
   static propTypes = {

@@ -53,4 +53,12 @@ Task.propTypes = {
   onDeleted: PropTypes.func,
 }
 
+Task.defaultProps = {
+  completed: false,
+  editing: false,
+  date: new Date(),
+  onToggleCompleted() { },
+  onDeleted() { },
+}
+
 export default Task;

@@ -41,6 +41,11 @@ Footer.propTypes = {
     editing: PropTypes.bool,
     date: PropTypes.object,
   })),
+};
+
+Footer.defaultProps = {
+  deleteItem() { },
+  todoData: [],
 }
 
 export default Footer;

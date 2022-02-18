@@ -26,6 +26,7 @@ export default class TasksFilter extends Component {
 
   static defaultProps = {
     onFiltered() { },
+    buttonData: [],
   };
 
   static propTypes = {

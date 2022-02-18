@@ -25,4 +25,10 @@ FilterButtons.propTypes = {
   onToggleFilter: PropTypes.func,
 }
 
+FilterButtons.defaultProps = {
+  value: "Some button",
+  selected: false,
+  onToggleFilter() { },
+}
+
 export default FilterButtons;
