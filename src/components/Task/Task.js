@@ -23,7 +23,8 @@ function Task({ text, completed, editing, date, onToggleCompleted, onDeleted, on
   const [creationTime, setCreationTime] = useState(createdAgo());
 
   useEffect(() => {
-    setInterval(() => setCreationTime(createdAgo()), 10000);
+    const updater = setInterval(() => setCreationTime(createdAgo()), 10000);
+    return clearInterval(updater);
   });
 
   return (

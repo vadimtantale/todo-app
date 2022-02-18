@@ -15,6 +15,11 @@ export default class App extends Component {
       this.createItem('Finish the app'),
       this.createItem('Send it to Artem'),
     ],
+    buttonData: [
+      { id: 'all', value: 'All', selected: true },
+      { id: 'active', value: 'Active', selected: false },
+      { id: 'completed', value: 'Completed', selected: false },
+    ],
   };
 
   createItem(text) {
@@ -23,7 +28,6 @@ export default class App extends Component {
       id: this.todoDataCount++,
       completed: false,
       editing: false,
-      visible: true,
       date: new Date(),
     };
   }
@@ -78,16 +82,12 @@ export default class App extends Component {
     });
   };
 
-  filterItems = (button) => {
-    const actionButtons = {
-      all: item => ({ ...item, visible: true }),
-      active: item => ({ ...item, visible: !item.completed && !item.editing && true }),
-      completed: item => ({ ...item, visible: item.completed && true }),
-    }
-
-    this.setState(({ todoData }) => {
+  onFilterButton = id => {
+    this.setState(({ buttonData }) => {
       return {
-        todoData: todoData.map(actionButtons[button]),
+        buttonData: buttonData.map(item => {
+          return { ...item, selected: id === item.id ? true : false }
+        }),
       };
     });
   };
@@ -103,10 +103,12 @@ export default class App extends Component {
             onDeleted={this.deleteItem}
             onToggleEditing={this.onToggleEditing}
             carriedChangeItemText={carry(this.changeProperty)}
+            buttonData={this.state.buttonData}
           />
-          <Footer onFiltered={this.filterItems}
+          <Footer onFiltered={this.onFilterButton}
             deleteItem={this.deleteItem}
             todoData={this.state.todoData}
+            buttonData={this.state.buttonData}
           />
         </section>
       </section>

@@ -7,38 +7,19 @@ import './TasksFilter.css';
 
 export default class TasksFilter extends Component {
 
-  state = {
-    buttonData: [
-      { id: 'all', value: 'All', selected: true },
-      { id: 'active', value: 'Active', selected: false },
-      { id: 'completed', value: 'Completed', selected: false },
-    ]
-  }
-
-  handleClick = (id) => {
-    this.setState(({ buttonData }) => {
-      return {
-        buttonData: buttonData.map(item => {
-          return { ...item, selected: id === item.id ? true : false }
-        }),
-      };
-    });
-    this.props.onFiltered(id);
-  };
-
   render() {
-    const buttons = this.state.buttonData.map(item => {
+    const filterButtons = this.props.buttonData.map(item => {
       const { id, ...rest } = item;
 
       return <FilterButtons {...rest}
         key={id}
-        onToggleFilter={() => this.handleClick(id)}
+        onToggleFilter={() => this.props.onFiltered(id)}
       />
     });
 
     return (
       <ul className="filters">
-        {buttons}
+        {filterButtons}
       </ul>
     );
   };
@@ -49,5 +30,10 @@ export default class TasksFilter extends Component {
 
   static propTypes = {
     onFiltered: PropTypes.func,
+    buttonData: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.string,
+      value: PropTypes.string,
+      selected: PropTypes.bool,
+    })),
   }
 };
