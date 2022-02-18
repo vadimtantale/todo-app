@@ -5,28 +5,31 @@ import Header from '../Header';
 import TaskList from '../TaskList';
 import Footer from '../Footer';
 
+import carry from '../../utils/carry';
+
 export default class App extends Component {
   todoDataCount = 1;
 
   state = {
     todoData: [
-      this.createItem( 'Completed task' ),
-      this.createItem( 'Active task' ),
+      this.createItem('Finish the app'),
+      this.createItem('Send it to Artem'),
     ],
   };
 
-  createItem ( text ) {
+  createItem(text) {
     return {
       text,
       id: this.todoDataCount++,
       completed: false,
       editing: false,
       visible: true,
+      date: new Date(),
     };
   }
 
-  addItem = ( text ) => {
-    this.setState(({todoData}) => {
+  addItem = (text) => {
+    this.setState(({ todoData }) => {
       return {
         todoData: [...todoData, this.createItem(text)],
       };
@@ -34,11 +37,11 @@ export default class App extends Component {
   };
 
   changeProperty = (id, text) => {
-    this.setState(({todoData}) => {
+    this.setState(({ todoData }) => {
       return {
         todoData: todoData.map(item => {
           if (item.id === id) {
-            return {...item, text}
+            return { ...item, text }
           }
           return item;
         }),
@@ -46,37 +49,28 @@ export default class App extends Component {
     });
   };
 
-  carry (func) {
-    return function carried(...args) {
-      if (args.length >= func.length) return func.apply(this, args);
-      return function(...args2) {
-        return carried.apply(this, [...args, ...args2]);
-      };
-    };
-  };
-
   toggleProperty(arr, id, propName) {
-    return arr.map( item => {
-        if (id === item.id) {
-          return { ...item, [propName]: !item[propName] };
-        }
-        return item;
-      });
+    return arr.map(item => {
+      if (id === item.id) {
+        return { ...item, [propName]: !item[propName] };
+      }
+      return item;
+    });
   };
 
-  onToggleCompleted = ( id ) => {
+  onToggleCompleted = (id) => {
     this.setState(({ todoData }) => {
       return { todoData: this.toggleProperty(todoData, id, 'completed') };
     });
   };
 
-  onToggleEditing = ( id ) => {
+  onToggleEditing = (id) => {
     this.setState(({ todoData }) => {
       return { todoData: this.toggleProperty(todoData, id, 'editing') };
     });
   };
 
-  deleteItem = ( id ) => {
+  deleteItem = (id) => {
     this.setState(({ todoData }) => {
       return {
         todoData: todoData.filter(item => item.id !== id),
@@ -84,14 +78,14 @@ export default class App extends Component {
     });
   };
 
-  filterItems = ( button ) => {
+  filterItems = (button) => {
     const actionButtons = {
-      all: item => ({...item, visible: true}),
-      active: item => ({...item, visible: !item.completed && !item.editing && true}),
-      completed: item => ({...item, visible: item.completed && true}),
+      all: item => ({ ...item, visible: true }),
+      active: item => ({ ...item, visible: !item.completed && !item.editing && true }),
+      completed: item => ({ ...item, visible: item.completed && true }),
     }
-    
-    this.setState(({todoData}) => {
+
+    this.setState(({ todoData }) => {
       return {
         todoData: todoData.map(actionButtons[button]),
       };
@@ -99,21 +93,20 @@ export default class App extends Component {
   };
 
   render() {
-    
     return (
-      <section className = 'todoapp'>
-        <Header onAdded = { this.addItem } />
+      <section className='todoapp'>
+        <Header onAdded={this.addItem} />
         <section className='main'>
           <TaskList
-            todoData = { this.state.todoData }
-            onToggleCompleted = { this.onToggleCompleted }
-            onDeleted = { this.deleteItem }
-            onToggleEditing = { this.onToggleEditing }
-            carriedChangeItemText = { this.carry(this.changeProperty) }
+            todoData={this.state.todoData}
+            onToggleCompleted={this.onToggleCompleted}
+            onDeleted={this.deleteItem}
+            onToggleEditing={this.onToggleEditing}
+            carriedChangeItemText={carry(this.changeProperty)}
           />
-          <Footer onFiltered = { this.filterItems }
-                  deleteItem = { this.deleteItem }
-                  todoData = { this.state.todoData }
+          <Footer onFiltered={this.filterItems}
+            deleteItem={this.deleteItem}
+            todoData={this.state.todoData}
           />
         </section>
       </section>

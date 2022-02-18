@@ -1,4 +1,5 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
+import PropTypes from 'prop-types';
 
 import './EditField.css';
 
@@ -24,12 +25,22 @@ export default class EditField extends Component {
 		return (
 			<form onSubmit={this.handleSubmit}>
 				<input type="text"
-							 className="edit"
-							 placeholder="Editing task"
-							 onChange={this.handleChange}
-							 autoFocus>
+					className="edit"
+					placeholder="Editing task"
+					onChange={this.handleChange}
+					autoFocus>
 				</input>
 			</form>
 		);
 	};
+
+	static defaultProps = {
+		onToggleEditing() { },
+	}
+
+	static propTypes = {
+		text: PropTypes.string,
+		onToggleEditing: PropTypes.func,
+		carriedChangeItemText: PropTypes.func,
+	}
 };
