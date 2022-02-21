@@ -30,8 +30,7 @@ export default class NewTaskForm extends Component {
           placeholder="What needs to be done?"
           value={this.state.value}
           onChange={this.onChange}
-          autoFocus>
-        </input>
+          autoFocus />
       </form>
     );
   };

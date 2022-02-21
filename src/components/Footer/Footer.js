@@ -1,16 +1,15 @@
-import React from "react";
+import React from 'react'
 import PropTypes from 'prop-types';
 
-import TasksFilter from "../TasksFilter/TasksFilter";
+import TasksFilter from '../TasksFilter/TasksFilter'
 
 import './Footer.css';
 
 function Footer({ onFiltered, deleteItem, todoData, buttonData }) {
-
   const clearCompleted = (todoData) => {
-    todoData.forEach(item => {
+    todoData.forEach((item) => {
       item.completed && deleteItem(item.id);
-    });
+    })
   };
 
   const countActiveTask = todoData.reduce((acc, item) => {
@@ -21,30 +20,29 @@ function Footer({ onFiltered, deleteItem, todoData, buttonData }) {
   return (
     <footer className="footer">
       <span className="todo-count">{countActiveTask} items left</span>
-      <TasksFilter onFiltered={onFiltered}
-        buttonData={buttonData}
-      />
-      <button className="clear-completed"
-        onClick={() => clearCompleted(todoData)}>
+      <TasksFilter onFiltered={onFiltered} buttonData={buttonData} />
+      <button className="clear-completed" onClick={() => clearCompleted(todoData)}>
         Clear completed
       </button>
     </footer>
   );
-};
+}
 
 Footer.propTypes = {
   deleteItem: PropTypes.func,
-  todoData: PropTypes.arrayOf(PropTypes.shape({
-    text: PropTypes.string,
-    id: PropTypes.number,
-    completed: PropTypes.bool,
-    editing: PropTypes.bool,
-    date: PropTypes.object,
-  })),
+  todoData: PropTypes.arrayOf(
+    PropTypes.shape({
+      text: PropTypes.string,
+      id: PropTypes.number,
+      completed: PropTypes.bool,
+      editing: PropTypes.bool,
+      date: PropTypes.object,
+    })
+  ),
 };
 
 Footer.defaultProps = {
-  deleteItem() { },
+  deleteItem() {},
   todoData: [],
 }
 

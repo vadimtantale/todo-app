@@ -28,8 +28,7 @@ export default class EditField extends Component {
           className="edit"
           placeholder="Editing task"
           onChange={this.handleChange}
-          autoFocus>
-        </input>
+          autoFocus />
       </form>
     );
   };

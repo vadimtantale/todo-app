@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {nanoid} from 'nanoid';
 
 import './App.css';
 import Header from '../Header';
@@ -8,7 +9,6 @@ import Footer from '../Footer';
 import carry from '../../utils/carry';
 
 export default class App extends Component {
-  todoDataCount = 1;
 
   state = {
     todoData: [
@@ -25,7 +25,7 @@ export default class App extends Component {
   createItem(text) {
     return {
       text,
-      id: this.todoDataCount++,
+      id: nanoid(),
       completed: false,
       editing: false,
       date: new Date(),
@@ -33,24 +33,20 @@ export default class App extends Component {
   }
 
   addItem = (text) => {
-    this.setState(({ todoData }) => {
-      return {
+    this.setState(({ todoData }) => ({
         todoData: [...todoData, this.createItem(text)],
-      };
-    });
+      }));
   };
 
   changeProperty = (id, text) => {
-    this.setState(({ todoData }) => {
-      return {
+    this.setState(({ todoData }) => ({
         todoData: todoData.map(item => {
           if (item.id === id) {
             return { ...item, text }
           }
           return item;
         }),
-      };
-    });
+      }));
   };
 
   toggleProperty(arr, id, propName) {
@@ -63,33 +59,23 @@ export default class App extends Component {
   };
 
   onToggleCompleted = (id) => {
-    this.setState(({ todoData }) => {
-      return { todoData: this.toggleProperty(todoData, id, 'completed') };
-    });
+    this.setState(({ todoData }) => ({ todoData: this.toggleProperty(todoData, id, 'completed') }));
   };
 
   onToggleEditing = (id) => {
-    this.setState(({ todoData }) => {
-      return { todoData: this.toggleProperty(todoData, id, 'editing') };
-    });
+    this.setState(({ todoData }) => ({ todoData: this.toggleProperty(todoData, id, 'editing') }));
   };
 
   deleteItem = (id) => {
-    this.setState(({ todoData }) => {
-      return {
+    this.setState(({ todoData }) => ({
         todoData: todoData.filter(item => item.id !== id),
-      };
-    });
+      }));
   };
 
   onFilterButton = id => {
-    this.setState(({ buttonData }) => {
-      return {
-        buttonData: buttonData.map(item => {
-          return { ...item, selected: id === item.id ? true : false }
-        }),
-      };
-    });
+    this.setState(({ buttonData }) => ({
+        buttonData: buttonData.map(item => ({ ...item, selected: id === item.id })),
+      }));
   };
 
   render() {

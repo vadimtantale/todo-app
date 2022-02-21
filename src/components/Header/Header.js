@@ -12,7 +12,7 @@ function Header({ onAdded }) {
       <NewTaskForm onAdded={onAdded} />
     </header>
   );
-};
+}
 
 Header.propTypes = {
   onAdded: PropTypes.func,
