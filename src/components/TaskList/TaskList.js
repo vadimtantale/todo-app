@@ -1,31 +1,22 @@
-import React from 'react';
-import PropTypes from "prop-types";
+import React from 'react'
+import PropTypes from 'prop-types'
 
-import "./TaskList.css";
-import Task from "../Task";
+import './TaskList.css'
+import Task from '../Task'
 
-function TaskList({
-  todoData,
-  onToggleCompleted,
-  onDeleted,
-  onToggleEditing,
-  carriedChangeItemText,
-  buttonData,
-}) {
+function TaskList({ todoData, onToggleCompleted, onDeleted, onToggleEditing, carriedChangeItemText, buttonData }) {
   const filterCallback = () => {
-    const selectedButton = buttonData
-      .filter((i) => i.selected)
-      .reduce((acc, i) => acc + i.id, "");
+    const selectedButton = buttonData.filter((i) => i.selected).reduce((acc, i) => acc + i.id, '')
     const callbacks = {
       all: () => true,
       active: (item) => !item.completed,
       completed: (item) => item.completed,
-    };
+    }
     return callbacks[selectedButton]
-  };
+  }
 
   const todos = todoData.filter(filterCallback()).map((item) => {
-    const { id, ...rest } = item;
+    const { id, ...rest } = item
 
     return (
       <Task
@@ -36,9 +27,9 @@ function TaskList({
         onToggleEditing={() => onToggleEditing(id)}
         carriedChangeItemText={carriedChangeItemText(id)}
       />
-    });
-
-  return <ul className="todo-list">{todos}</ul>;
+    )
+  })
+  return <ul className="todo-list">{todos}</ul>
 }
 
 TaskList.propTypes = {
@@ -58,11 +49,11 @@ TaskList.propTypes = {
       selected: PropTypes.bool,
     })
   ),
-};
+}
 
 TaskList.defaultProps = {
   todoData: [],
   buttonData: [],
-};
+}
 
 export default TaskList

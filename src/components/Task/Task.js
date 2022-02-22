@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { formatDistanceToNow } from 'date-fns';
-import PropTypes from 'prop-types';
+import { formatDistanceToNow } from 'date-fns'
+import PropTypes from 'prop-types'
 
 import EditField from '../EditField'
 
-import './Task.css';
+import './Task.css'
 
 function Task({
   text,
@@ -18,21 +18,21 @@ function Task({
 }) {
   const getClassName = () => {
     if (completed) {
-      return 'completed';
+      return 'completed'
     }
 
     if (editing) {
-      return 'editing';
+      return 'editing'
     }
   }
 
   const createdAgo = () => formatDistanceToNow(date, { includeSeconds: true, addSuffix: true })
 
-  const [creationTime, setCreationTime] = useState(createdAgo());
+  const [creationTime, setCreationTime] = useState(createdAgo())
 
   useEffect(() => {
-    const updater = setInterval(() => setCreationTime(createdAgo()), 10000);
-    return () => clearInterval(updater);
+    const updater = setInterval(() => setCreationTime(createdAgo()), 10000)
+    return () => clearInterval(updater)
   })
 
   return (
@@ -50,10 +50,11 @@ function Task({
         <EditField onToggleEditing={onToggleEditing} carriedChangeItemText={carriedChangeItemText} text={text} />
       )}
     </li>
-  );
+  )
 }
 
 Task.propTypes = {
+  text: PropTypes.string,
   completed: PropTypes.bool,
   editing: PropTypes.bool,
   date: PropTypes.object,
@@ -62,6 +63,7 @@ Task.propTypes = {
 }
 
 Task.defaultProps = {
+  text: 'New task',
   completed: false,
   editing: false,
   date: new Date(),
@@ -69,4 +71,4 @@ Task.defaultProps = {
   onDeleted() {},
 }
 
-export default Task;
+export default Task

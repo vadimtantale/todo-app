@@ -1,21 +1,21 @@
 import React from 'react'
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 
 import TasksFilter from '../TasksFilter/TasksFilter'
 
-import './Footer.css';
+import './Footer.css'
 
 function Footer({ onFiltered, deleteItem, todoData, buttonData }) {
   const clearCompleted = (todoData) => {
     todoData.forEach((item) => {
-      item.completed && deleteItem(item.id);
+      item.completed && deleteItem(item.id)
     })
-  };
+  }
 
   const countActiveTask = todoData.reduce((acc, item) => {
-    if (item.completed) return acc;
-    return ++acc;
-  }, 0);
+    if (item.completed) return acc
+    return ++acc
+  }, 0)
 
   return (
     <footer className="footer">
@@ -25,7 +25,7 @@ function Footer({ onFiltered, deleteItem, todoData, buttonData }) {
         Clear completed
       </button>
     </footer>
-  );
+  )
 }
 
 Footer.propTypes = {
@@ -39,11 +39,11 @@ Footer.propTypes = {
       date: PropTypes.object,
     })
   ),
-};
+}
 
 Footer.defaultProps = {
   deleteItem() {},
   todoData: [],
 }
 
-export default Footer;
+export default Footer

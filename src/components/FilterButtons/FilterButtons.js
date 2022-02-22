@@ -1,10 +1,10 @@
 import React from 'react'
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 
-import './FilterButtons.css';
+import './FilterButtons.css'
 
 function FilterButtons({ value, selected, onToggleFilter }) {
-  const getClassName = () => selected ? 'selected' : ''
+  const getClassName = () => (selected ? 'selected' : '')
 
   return (
     <li>
@@ -12,7 +12,7 @@ function FilterButtons({ value, selected, onToggleFilter }) {
         {value}
       </button>
     </li>
-  );
+  )
 }
 
 FilterButtons.propTypes = {
@@ -27,4 +27,4 @@ FilterButtons.defaultProps = {
   onToggleFilter() {},
 }
 
-export default FilterButtons;
+export default FilterButtons

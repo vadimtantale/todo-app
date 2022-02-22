@@ -1,3 +1,3 @@
-import FilterButtons from './FilterButtons';
+import FilterButtons from './FilterButtons'
 
-export default FilterButtons;
+export default FilterButtons

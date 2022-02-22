@@ -1,3 +1,3 @@
-import EditField from './EditField';
+import EditField from './EditField'
 
-export default EditField;
+export default EditField
